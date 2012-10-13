@@ -43,6 +43,7 @@ public class XandO {
 		computerType = firstPlayerType.equals("X") ? "O" : "X";
 		draw = false;
 		counter = 0;
+		//
 	}
 
 	public static void showBoard() {
