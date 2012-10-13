@@ -63,8 +63,10 @@ public class XandO {
 		int x = 0, y = 0;
 		while (!match) {
 			System.out.println("Enter coordinates where to make move(x,y):");
-			x = sc.hasNextInt() ? sc.nextInt() : -1;
-			y = sc.hasNextInt() ? sc.nextInt() : -1;
+			x = scanCoordinates(sc);
+			y = scanCoordinates(sc);
+		//	x = sc.hasNextInt() ? sc.nextInt() : -1;
+		//	y = sc.hasNextInt() ? sc.nextInt() : -1;
 			if (x > 0 && x < 4 && y > 0 && y < 4) {
 				if (board[x - 1][y - 1].equals(" ")) {
 					board[x - 1][y - 1] = firstPlayerType;
@@ -72,12 +74,20 @@ public class XandO {
 				} else
 					System.out.println("This place is already used! Try again :)");
 			} else {
-				System.out.println("Invalid input! Try again!");
-				sc.next();
+				System.out.println("Invalid input! Try again!");;					
 			}
 
 		}
 		firstPlayerTurn = false;
+	}
+	
+	public static int scanCoordinates(Scanner sc){
+		if (sc.hasNextInt()){
+			return sc.nextInt();
+		} else {
+			sc.next();
+			return -1;
+		}		
 	}
 
 	public static void computerMove() {
