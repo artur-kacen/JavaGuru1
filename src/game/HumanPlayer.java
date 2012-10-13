@@ -2,8 +2,8 @@ package game;
 
 import java.util.Scanner;
 
-public class HumanPlayer implements Player {
-	public Figures figure = Figures.getFigure();
+public class HumanPlayer extends Player {
+	//public Figures figure = Figures.getFigure();
 	public void turn(Field field) {
 		boolean match = false;
 		Scanner sc = new Scanner(System.in);

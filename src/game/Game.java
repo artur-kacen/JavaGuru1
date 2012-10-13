@@ -19,8 +19,9 @@ public interface Game {
 				System.out.println("Player Nr. " + (i + 1)
 						+ " will be ([P]layer or [C]omputer):");
 				Scanner sc = new Scanner(System.in);
-				boolean match = true;
+				boolean match;
 				do {
+					match = true;
 					String type = sc.nextLine();
 					if (type.equalsIgnoreCase("p")) {
 						players[i] = new HumanPlayer();
@@ -31,6 +32,13 @@ public interface Game {
 						match = false;
 					}
 				} while (!match);
+			}
+			selectFigure();
+		}
+		
+		private void selectFigure(){
+			for (int i = 0; i < playerCount; i++){
+				players[i].figure = Figures.getFigure();
 			}
 		}
 		
