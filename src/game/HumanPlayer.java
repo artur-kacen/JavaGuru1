@@ -12,8 +12,8 @@ public class HumanPlayer extends Player {
 			System.out.println("Enter coordinates where to make move(x,y):");
 			x = scanCoordinates(sc);
 			y = scanCoordinates(sc);
-			if (x > 0 && x < field.getMaxX() && y > 0 && y < field.getMaxY()) {
-				if (field.makeMove(x, y, figure)) {
+			if (x > 0 && x < field.getMaxX() +1  && y > 0 && y < field.getMaxY() + 1) {
+				if (field.makeMove(x-1, y-1, figure)) {
 					match = true;
 				} else
 					System.out.println("This place is already used! Try again :)");

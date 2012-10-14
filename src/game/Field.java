@@ -11,14 +11,18 @@ public class Field {
 		maxX = X;
 		maxY = Y;
 		figureTable = new ArrayList<List<Figures>>();
-		List<Figures> list = new ArrayList<Figures>(maxX);
-		for (int i = 0; i < maxY; i++) {
+		
+		for (int i = 0; i < maxY; i++){
+			List<Figures> list = new ArrayList<Figures>(maxX);
+			for (int j = 0; j < maxX; j++) {
+				list.add(Figures.NULL);
+			}
 			figureTable.add(list);
 		}
 	}
 
 	public boolean makeMove(int X, int Y, Figures figure) {
-		if (figureTable.get(X).get(Y) == null) {
+		if (figureTable.get(X).get(Y) == Figures.NULL) {
 			figureTable.get(X).set(Y, figure);
 			return true;
 		}
@@ -29,7 +33,7 @@ public class Field {
 		boolean match = false;
 		int row = 0;
 		int collumn = 0;
-		while(collumn < maxX || !match){
+		while(collumn < maxX || match){
 			for (int i = 0; i < maxY -1; i++){
 				if (figureTable.get(collumn).get(i) == figure && figureTable.get(collumn).get(i) == figureTable.get(collumn).get(i+1)) {
 					match = true;
@@ -41,7 +45,7 @@ public class Field {
 			collumn++;
 		}
 		
-		while(row < maxY || !match){
+		while(row < maxY || match){
 			for (int i = 0; i < maxY -1; i++){
 				if (figureTable.get(i).get(row) == figure && figureTable.get(i).get(row) == figureTable.get(i+1).get(row) ) {
 					match = true;
@@ -66,5 +70,14 @@ public class Field {
 
 	public int getMaxY() {
 		return maxY;
+	}
+	
+	public void showField(){
+		for (List<Figures> f_list: figureTable){
+			for (Figures f: f_list){
+				System.out.print(f +  " | ");
+			}
+			System.out.println();
+		}
 	}
 }
