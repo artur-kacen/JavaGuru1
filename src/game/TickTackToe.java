@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class TickTackToe implements Game {
 	Field field;
 	private Player[] players;
+	private Player winner = null;
 	private int currentPlayer = 0;
 	private int playerCount;
 
@@ -42,26 +43,33 @@ public class TickTackToe implements Game {
 
 	private boolean gameEnd() {
 		if (field.checkWin(players[currentPlayer].figure)) {
+			winner = players[currentPlayer];
 			return true;
 		} else {
-			//switchPlayer();
+			switchPlayer();
 			return false;
 		}
 	}
 
 	private void switchPlayer() {
 		currentPlayer++;
-		if (currentPlayer >= playerCount){
+		if (currentPlayer >= playerCount) {
 			currentPlayer = 0;
-		}		
+		}
 	}
 
+	public void result(){
+		if (winner != null){
+			System.out.println("We have a winner!\n It is: " + winner.figure);
+		}
+	}
 	public void play() {
 		while (!gameEnd()) {
 			players[currentPlayer].turn(field);
 			field.showField();
-			switchPlayer();
+			// switchPlayer();
 		}
+
 	}
 
 }

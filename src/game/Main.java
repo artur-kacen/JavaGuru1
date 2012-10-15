@@ -9,6 +9,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		Game ttt = new TickTackToe(2, 3, 3);
 		ttt.play();
+		ttt.result();
 	}
 
 }

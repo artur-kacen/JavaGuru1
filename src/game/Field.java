@@ -33,7 +33,7 @@ public class Field {
 		boolean match = false;
 		int row = 0;
 		int collumn = 0;
-		while(collumn < maxX || match){
+		while(collumn < maxX && !match){
 			for (int i = 0; i < maxY -1; i++){
 				if (figureTable.get(collumn).get(i) == figure && figureTable.get(collumn).get(i) == figureTable.get(collumn).get(i+1)) {
 					match = true;
@@ -45,7 +45,7 @@ public class Field {
 			collumn++;
 		}
 		
-		while(row < maxY || match){
+		while(row < maxY && !match){
 			for (int i = 0; i < maxY -1; i++){
 				if (figureTable.get(i).get(row) == figure && figureTable.get(i).get(row) == figureTable.get(i+1).get(row) ) {
 					match = true;
