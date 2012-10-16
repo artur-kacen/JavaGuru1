@@ -33,9 +33,11 @@ public class Field {
 		boolean match = false;
 		int row = 0;
 		int collumn = 0;
+		
+		//check columns 
 		while(collumn < maxX && !match){
-			for (int i = 0; i < maxY -1; i++){
-				if (figureTable.get(collumn).get(i) == figure && figureTable.get(collumn).get(i) == figureTable.get(collumn).get(i+1)) {
+			for (int i = 0; i < maxY; i++){
+				if (figureTable.get(collumn).get(i) == figure) {
 					match = true;
 				} else {
 					match = false;
@@ -44,10 +46,10 @@ public class Field {
 			}
 			collumn++;
 		}
-		
+		//check rows
 		while(row < maxY && !match){
-			for (int i = 0; i < maxY -1; i++){
-				if (figureTable.get(i).get(row) == figure && figureTable.get(i).get(row) == figureTable.get(i+1).get(row) ) {
+			for (int i = 0; i < maxX; i++){
+				if (figureTable.get(i).get(row) == figure) {
 					match = true;
 				} else {
 					match = false;
@@ -56,6 +58,31 @@ public class Field {
 			}
 			row++;
 		}
+		
+		//check diagonal
+		if (maxX == maxY && !match){
+			for(int i = 0; i < maxX; i++){
+				if (figureTable.get(i).get(i) == figure) {
+					match = true;
+				}else{
+					match = false;
+					break;
+				}	
+			}
+		}
+		
+		//check diagonal 2
+		if (maxX == maxY && !match){
+			for(int i = 0; i < maxY; i++){
+				if(figureTable.get(i).get(maxY-1-i) == figure){
+					match = true;
+				}else{
+					match = false;
+					break;
+				}
+			}
+		}
+		
 		
 		if (match){
 			return true;
