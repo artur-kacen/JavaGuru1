@@ -6,13 +6,14 @@ public class Field {
 	List<List<Figures>> figureTable;
 	private int maxX;
 	private int maxY;
+	public int[] lastNullCoordinate = new int[2];
 
 	public Field(int X, int Y) {
 		maxX = X;
 		maxY = Y;
 		figureTable = new ArrayList<List<Figures>>();
-		
-		for (int i = 0; i < maxY; i++){
+
+		for (int i = 0; i < maxY; i++) {
 			List<Figures> list = new ArrayList<Figures>(maxX);
 			for (int j = 0; j < maxX; j++) {
 				list.add(Figures.NULL);
@@ -30,65 +31,130 @@ public class Field {
 	}
 
 	public boolean checkWin(Figures figure) {
-		boolean match = false;
-		int row = 0;
-		int collumn = 0;
-		
-		//check columns 
-		while(collumn < maxX && !match){
-			for (int i = 0; i < maxY; i++){
-				if (figureTable.get(collumn).get(i) == figure) {
-					match = true;
+		if (checkColum(figure, 0)) {
+			return true;
+		} else {
+			if (checkRow(figure, 0)) {
+				return true;
+			} else {
+				if (checkFirstDiagonal(figure, 0)) {
+					return true;
 				} else {
-					match = false;
-					break;
+					if (checkSecondDiagonal(figure, 0)) {
+						return true;
+					}
 				}
 			}
-			collumn++;
 		}
-		//check rows
-		while(row < maxY && !match){
-			for (int i = 0; i < maxX; i++){
-				if (figureTable.get(i).get(row) == figure) {
+
+		return false;
+	}
+
+	public boolean checkColum(Figures figure, int maxNullCount) {
+		boolean match = false;
+		int column = 0;
+		int nullCount = 0;
+
+		while (column < maxX && !match) {
+			for (int row = 0; row < maxY; row++) {
+				if (figureTable.get(column).get(row) == figure) {
 					match = true;
 				} else {
-					match = false;
-					break;
+					if (figureTable.get(column).get(row) == Figures.NULL
+							&& nullCount < maxNullCount) {
+						lastNullCoordinate[0] = column;
+						lastNullCoordinate[1] = row;
+						nullCount++;
+						match = true;
+					} else {
+						match = false;
+						break;
+					}
+				}
+			}
+			column++;
+		}
+
+		return match;
+	}
+
+	public boolean checkRow(Figures figure, int maxNullCount) {
+		boolean match = false;
+		int row = 0;
+		int nullCount = 0;
+
+		while (row < maxY && !match) {
+			for (int column = 0; column < maxX; column++) {
+				if (figureTable.get(column).get(row) == figure) {
+					match = true;
+				} else {
+					if (figureTable.get(column).get(row) == Figures.NULL
+							&& nullCount < maxNullCount) {
+						lastNullCoordinate[0] = column;
+						lastNullCoordinate[1] = row;
+						nullCount++;
+						match = true;
+					} else {
+						match = false;
+						break;
+					}
 				}
 			}
 			row++;
 		}
-		
-		//check diagonal
-		if (maxX == maxY && !match){
-			for(int i = 0; i < maxX; i++){
+		return match;
+	}
+
+	public boolean checkFirstDiagonal(Figures figure, int maxNullCount) {
+		boolean match = false;
+		int nullCount = 0;
+
+		if (maxX == maxY && !match) {
+			for (int i = 0; i < maxX; i++) {
 				if (figureTable.get(i).get(i) == figure) {
 					match = true;
-				}else{
-					match = false;
-					break;
-				}	
-			}
-		}
-		
-		//check diagonal 2
-		if (maxX == maxY && !match){
-			for(int i = 0; i < maxY; i++){
-				if(figureTable.get(i).get(maxY-1-i) == figure){
-					match = true;
-				}else{
-					match = false;
-					break;
+				} else {
+					if (figureTable.get(i).get(i) == Figures.NULL
+							&& nullCount < maxNullCount) {
+						lastNullCoordinate[0] = i;
+						lastNullCoordinate[1] = i;
+						nullCount++;
+						match = true;
+					} else {
+						match = false;
+						break;
+					}
 				}
 			}
 		}
-		
-		
-		if (match){
-			return true;
-		} else {
-			return false;
+
+		return match;
+	}
+
+	public boolean checkSecondDiagonal(Figures figure, int maxNullCount) {
+		boolean match = false;
+		int nullCount = 0;
+
+		if (maxX == maxY && !match) {
+			for (int i = 0; i < maxY; i++) {
+				if (figureTable.get(i).get(maxY - 1 - i) == figure) {
+					match = true;
+				} else {
+					if (figureTable.get(i).get(i) == Figures.NULL
+							&& nullCount < maxNullCount) {
+						lastNullCoordinate[0] = i;
+						lastNullCoordinate[1] = maxY - 1 - i;
+						nullCount++;
+						match = true;
+					} else {
+						match = false;
+						break;
+					}
+				}
+			}
 		}
+
+		return match;
 	}
 
 	public int getMaxX() {
@@ -98,11 +164,15 @@ public class Field {
 	public int getMaxY() {
 		return maxY;
 	}
-	
-	public void showField(){
-		for (List<Figures> f_list: figureTable){
-			for (Figures f: f_list){
-				System.out.print(f +  " | ");
+
+	public List<List<Figures>> getFigureTable() {
+		return figureTable;
+	}
+
+	public void showField() {
+		for (List<Figures> f_list : figureTable) {
+			for (Figures f : f_list) {
+				System.out.print(f + " | ");
 			}
 			System.out.println();
 		}
