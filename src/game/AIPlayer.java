@@ -6,15 +6,12 @@ public class AIPlayer extends Player{
 	public void turn (Field field){
 		System.out.println("Computer move");
 		if(findMoveToWin(field)){
-			System.out.println("WIN!");
 			field.makeMove(field.getLastNullXcoordinate(), field.getLastNullYcoordinate(), figure);
 		} else {
 			if(findMoveToDefence(field)){
-				System.out.println("DEF!");
 				field.makeMove(field.getLastNullXcoordinate(), field.getLastNullYcoordinate(), figure);
 			} else {
 				makeRandomMove(field);	
-				System.out.println("RND!");
 			}
 			
 		}		
