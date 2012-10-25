@@ -6,7 +6,7 @@ public class Field {
 	List<List<Figures>> figureTable;
 	private int maxX;
 	private int maxY;
-	public int[] lastNullCoordinate = new int[2];
+	private int[] lastNullCoordinate = new int[2];
 
 	public Field(int X, int Y) {
 		maxX = X;
@@ -29,18 +29,30 @@ public class Field {
 		}
 		return false;
 	}
-
+	public boolean haveMoves(){
+		boolean haveNulles = false;
+		int row = 0;
+		while(!haveNulles && row < maxY){
+			for(int column = 0; column < maxX; column++){
+				if(figureTable.get(column).get(row) == Figures.NULL)
+					haveNulles = true;
+			}
+			row++;
+		}
+		return haveNulles;
+	}
 	public boolean checkWin(Figures figure) {
-		if (checkColum(figure, 0)) {
+		int maxNullCount = 0;
+		if (checkColum(figure, maxNullCount)) {
 			return true;
 		} else {
-			if (checkRow(figure, 0)) {
+			if (checkRow(figure, maxNullCount)) {
 				return true;
 			} else {
-				if (checkFirstDiagonal(figure, 0)) {
+				if (checkFirstDiagonal(figure, maxNullCount)) {
 					return true;
 				} else {
-					if (checkSecondDiagonal(figure, 0)) {
+					if (checkSecondDiagonal(figure, maxNullCount)) {
 						return true;
 					}
 				}
@@ -68,6 +80,7 @@ public class Field {
 						match = true;
 					} else {
 						match = false;
+						nullCount = 0;
 						break;
 					}
 				}
@@ -95,6 +108,7 @@ public class Field {
 						nullCount++;
 						match = true;
 					} else {
+						nullCount = 0;
 						match = false;
 						break;
 					}
@@ -121,6 +135,7 @@ public class Field {
 						nullCount++;
 						match = true;
 					} else {
+						nullCount = 0;
 						match = false;
 						break;
 					}
@@ -139,17 +154,16 @@ public class Field {
 			for (int i = 0; i < maxY; i++) {
 				if (figureTable.get(i).get(maxY - 1 - i) == figure) {
 					match = true;
+				} else if (figureTable.get(i).get(maxY - 1 - i) == Figures.NULL
+						&& nullCount < maxNullCount) {
+					lastNullCoordinate[0] = i;
+					lastNullCoordinate[1] = maxY - 1 - i;
+					nullCount++;
+					match = true;
 				} else {
-					if (figureTable.get(i).get(i) == Figures.NULL
-							&& nullCount < maxNullCount) {
-						lastNullCoordinate[0] = i;
-						lastNullCoordinate[1] = maxY - 1 - i;
-						nullCount++;
-						match = true;
-					} else {
-						match = false;
-						break;
-					}
+					nullCount = 0;
+					match = false;
+					break;
 				}
 			}
 		}
@@ -165,8 +179,12 @@ public class Field {
 		return maxY;
 	}
 
-	public List<List<Figures>> getFigureTable() {
-		return figureTable;
+	public int getLastNullXcoordinate() {
+		return lastNullCoordinate[0];
+	}
+
+	public int getLastNullYcoordinate() {
+		return lastNullCoordinate[1];
 	}
 
 	public void showField() {

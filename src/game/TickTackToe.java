@@ -42,13 +42,16 @@ public class TickTackToe implements Game {
 	}
 
 	private boolean gameEnd() {
+		
 		if (field.checkWin(players[currentPlayer].figure)) {
 			winner = players[currentPlayer];
 			return true;
-		} else {
+		} else if(field.haveMoves()){
 			switchPlayer();
 			return false;
 		}
+		System.out.println("Tie!");
+		return true;
 	}
 
 	private void switchPlayer() {
